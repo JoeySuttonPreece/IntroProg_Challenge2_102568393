@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VendingMachine {
     class Program {
@@ -12,7 +9,7 @@ namespace VendingMachine {
             float budget = getBudget();
             string input = "";
 
-            while(input.ToLower() != "e") {
+            while (input.ToLower() != "e") {
                 Console.WriteLine();
                 Console.WriteLine("--------------------------");
                 Console.WriteLine("Would you like to: ");
@@ -23,25 +20,31 @@ namespace VendingMachine {
 
                 input = Console.ReadLine();
 
-                if(input.ToLower() == "a") {
+                if (input.ToLower() == "a") {
                     addItem();
-                } else if(input.ToLower() == "c") {
+                } else if (input.ToLower() == "c") {
                     Console.WriteLine("---------------------------");
                     Console.WriteLine();
                     //------- Add Code to calculate if items exceed the budget ----//
                     //------- Example below gets everything from items and prints name and price ----/
+
+                    float total = 0;
                     foreach (Item i in items) {
                         Console.WriteLine(i.Name + "  $" + i.Price);
+                        total += i.Price;
                     }
 
-
                     // Print message indicating current budget and whether items exceed budget or not
+                    Console.WriteLine($"Total: ${total}, Budget: ${budget}");
+                    if (total > budget)
+                    {
+                        Console.WriteLine($"Uh oh, ${total - budget} over budget");
+                    } else
+                    {
+                        Console.WriteLine($"Keep going, still ${budget - total} under budget");
+                    }
                 }
             }
-            
-
-            
-
         }
 
         static float getBudget() {
@@ -72,11 +75,11 @@ namespace VendingMachine {
 
             //------------- Edit from this point to implement Clothing --------//
             // Get Item type
-            Console.Write("Enter Item type (F)ood ");
+            Console.Write("Enter Item type ((F)ood, (C)lothes): ");
             itemType = Console.ReadLine();
             
             // Get data for food - this may be of use as an example
-            if(itemType.ToLower() == "f") {
+            if (itemType.ToLower() == "f") {
                 int grossWeight = -1;
 
                 Console.Write("Enter Gross Weight: ");
@@ -87,14 +90,14 @@ namespace VendingMachine {
                 items.Add(newFood);  
             }
 
+            if (itemType.ToLower() == "c") {
+                Console.Write("Enter Clothing Size: ");
+                string size = Console.ReadLine();
 
+                Clothing newClothing = new Clothing(name, price, size);
+                items.Add(newClothing);  
+            }
             // ---------------------------------------------------------------//
-           
         }
-
-
-        
     }
-
-   
 }
